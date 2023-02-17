@@ -1,0 +1,22 @@
+{
+  "name": "first-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikerachman1/first-Node.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikerachman1/first-Node.js/issues"
+  },
+  "homepage": "https://github.com/mikerachman1/first-Node.js#readme",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
+}
