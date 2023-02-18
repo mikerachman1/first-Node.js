@@ -1,10 +1,17 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
+mongoose.set('strictQuery', false);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const PORT = 3000;
+if(process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
+const PORT = process.env.PORT || 3000;
+const CONNECTION = process.env.CONNECTION;
 
 const customers = [
   {
@@ -38,6 +45,18 @@ app.post('/', (req, res) => {
   res.send('This is a post request!!!');
 });
 
-app.listen(PORT, () => {
-  console.log('App listening on port ' + PORT);
-});
+
+
+const start = async() => {
+  try{
+    await mongoose.connect(CONNECTION);
+
+    app.listen(PORT, () => {
+      console.log('App listening on port ' + PORT);
+    });
+  } catch(err) {
+    console.log(err.message);
+  }
+};
+
+start();
