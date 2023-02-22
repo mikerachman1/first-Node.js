@@ -32,16 +32,24 @@ const customers = [
 ];
 
 const customer = new Customer({
-  name: 'Caleb',
+  name: 'John',
   industry: 'marketing'
 });
 
+
+
 app.get('/', (req, res) => {
-  res.send(customer)
+  res.send("welcome!")
 });
 
-app.get('/api/customers', (req, res) => {
-  res.send({"customers": customers})
+app.get('/api/customers', async (req, res) => {
+  try {
+    const result = await Customer.find();
+    res.send({"customers": result})
+
+  } catch(err) {
+    res.status(500).json({error: err.message})
+  }
 });
 
 app.post('/api/customers', (req, res) => {
