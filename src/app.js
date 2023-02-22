@@ -52,6 +52,15 @@ app.get('/api/customers', async (req, res) => {
   }
 });
 
+app.get('/api/customers/:id', async (req, res) => {
+  res.json({
+    // different paths, like a file structure
+    requestParams: req.params,
+    // extra data passed after ? in url ex: ?age=50&state=ohio
+    requestQuery: req.query
+  });
+});
+
 app.post('/api/customers', async (req, res) => {
   console.log(req.body);
   const customer = new Customer(req.body);
