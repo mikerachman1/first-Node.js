@@ -53,12 +53,24 @@ app.get('/api/customers', async (req, res) => {
 });
 
 app.get('/api/customers/:id', async (req, res) => {
-  res.json({
+  console.log({
     // different paths, like a file structure
     requestParams: req.params,
     // extra data passed after ? in url ex: ?age=50&state=ohio
     requestQuery: req.query
   });
+  try{
+    const customerId = req.params.id;
+    const customer = await Customer.findById(customerId);
+    console.log(customer);
+    if (!customer) { 
+      res.status(404).json({error: 'no user found'});
+    } else {
+      res.json({customer});
+    }
+  } catch(e) {
+    res.status(500).json({error: 'something went wrong'})
+  }
 });
 
 app.post('/api/customers', async (req, res) => {
