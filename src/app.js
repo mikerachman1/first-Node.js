@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Customer = require('./models/customer');
+
+
 const app = express();
 mongoose.set('strictQuery', false);
 
@@ -28,9 +31,14 @@ const customers = [
   }
 ];
 
+const customer = new Customer({
+  name: 'Caleb',
+  industry: 'marketing'
+});
+
 app.get('/', (req, res) => {
-  res.send('Welcome!')
-})
+  res.send(customer)
+});
 
 app.get('/api/customers', (req, res) => {
   res.send({"customers": customers})
