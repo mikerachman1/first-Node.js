@@ -75,8 +75,8 @@ app.get('/api/customers/:id', async (req, res) => {
 app.put('/api/customers/:id', async(req, res) => {
   try {
     const customerId = req.params.id;
-    const result = await Customer.findOneAndReplace({_id: customerId}, req.body, {new: true});
-    res.json({updatedCount: result});  
+    const customer = await Customer.findOneAndReplace({_id: customerId}, req.body, {new: true});
+    res.json({customer});  
   } catch(e) {
     res.status(500).json({error: 'something went wrong'});
   }
