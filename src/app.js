@@ -16,31 +16,12 @@ if(process.env.NODE_ENV !== 'production') {
 const PORT = process.env.PORT || 3000;
 const CONNECTION = process.env.CONNECTION;
 
-const customers = [
-  {
-    "name": "Caleb",
-    "industry": "music"
-  },
-  {
-    "name": "John",
-    "industry": "networking"
-  },
-  {
-    "name": "Sal",
-    "industry": "sports medicine"
-  }
-];
-
-const customer = new Customer({
-  name: 'John',
-  industry: 'marketing'
-});
-
-
 
 app.get('/', (req, res) => {
   res.send("welcome!")
 });
+
+// READ
 
 app.get('/api/customers', async (req, res) => {
   try {
@@ -73,6 +54,20 @@ app.get('/api/customers/:id', async (req, res) => {
   }
 });
 
+// UPDATE
+
+app.put('/api/customers/:id', async(req, res) => {
+  try {
+    const customerId = req.params.id;
+    const result = await Customer.replaceOne({_id: customerId}, req.body);
+    res.json({updatedCount: result.modifiedCount});  
+  } catch(e) {
+    res.status(500).json({error: 'something went wrong'});
+  }
+});
+
+// CREATE
+
 app.post('/api/customers', async (req, res) => {
   console.log(req.body);
   const customer = new Customer(req.body);
@@ -88,8 +83,6 @@ app.post('/api/customers', async (req, res) => {
 app.post('/', (req, res) => {
   res.send('This is a post request!!!');
 });
-
-
 
 const start = async() => {
   try{
