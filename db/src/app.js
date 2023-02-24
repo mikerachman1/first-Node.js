@@ -92,6 +92,27 @@ app.patch('/api/customers/:id', async(req, res) => {
   }
 })
 
+app.patch('/api/orders/:id', async(req, res) => {
+  console.log(req.params)
+  const orderId = req.params.id;
+  req.body._id = orderId;
+  try {
+    const result = await Customer.findOneAndUpdate(
+      {'orders._id': orderId},
+      { $set: { 'orders.$': req.body } }, 
+      { new: true }
+    );
+    if(result) {
+      res.json({result})
+    } else {
+      res.status(404).json({error: 'Something went wrong'});
+    }
+  } catch(e) {
+    console.log(e.message);
+    res.status(500).json({error: 'Something went wrong'});
+  }
+});
+
 // DESTROY
 
 app.delete('/api/customers/:id', async(req, res) => {
