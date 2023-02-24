@@ -95,6 +95,7 @@ app.patch('/api/customers/:id', async(req, res) => {
 app.patch('/api/orders/:id', async(req, res) => {
   console.log(req.params)
   const orderId = req.params.id;
+  // so updated order doesnt have new Id set by mongo
   req.body._id = orderId;
   try {
     const result = await Customer.findOneAndUpdate(
