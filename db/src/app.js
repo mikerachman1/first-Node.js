@@ -1,4 +1,5 @@
 "use strict";
+// SERVER SETUP
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,11 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// SERVER SETUP
-//@ts-nocheck
+Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const mongoose = require('mongoose');
-const Customer = require('./models/customer');
+const customer_1 = require("./models/customer");
 const cors = require('cors');
 const app = express();
 mongoose.set('strictQuery', false);
@@ -27,7 +27,7 @@ const CONNECTION = process.env.CONNECTION;
 // CREATE
 app.post('/api/customers', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
-    const customer = new Customer(req.body);
+    const customer = new customer_1.Customer(req.body);
     try {
         yield customer.save();
         // destructured property customer that contains nested data
@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 });
 app.get('/api/customers', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield Customer.find();
+        const result = yield customer_1.Customer.find();
         res.send({ "customers": result });
     }
     catch (err) {
@@ -59,7 +59,7 @@ app.get('/api/customers/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
     });
     try {
         const customerId = req.params.id;
-        const customer = yield Customer.findById(customerId);
+        const customer = yield customer_1.Customer.findById(customerId);
         console.log(customer);
         if (!customer) {
             res.status(404).json({ error: 'no user found' });
@@ -76,7 +76,7 @@ app.get('/api/orders/:id', (req, res) => __awaiter(void 0, void 0, void 0, funct
     console.log({ requestParams: req.params });
     try {
         const orderId = req.params.id;
-        const order = yield Customer.findOne({ 'orders._id': orderId });
+        const order = yield customer_1.Customer.findOne({ 'orders._id': orderId });
         console.log(order);
         if (order) {
             res.json({ order });
@@ -94,7 +94,7 @@ app.get('/api/orders/:id', (req, res) => __awaiter(void 0, void 0, void 0, funct
 app.put('/api/customers/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const customerId = req.params.id;
-        const customer = yield Customer.findOneAndReplace({ _id: customerId }, req.body, { new: true });
+        const customer = yield customer_1.Customer.findOneAndReplace({ _id: customerId }, req.body, { new: true });
         res.json({ customer });
     }
     catch (e) {
@@ -104,7 +104,7 @@ app.put('/api/customers/:id', (req, res) => __awaiter(void 0, void 0, void 0, fu
 app.patch('/api/customers/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const customerId = req.params.id;
-        const customer = yield Customer.findOneAndUpdate({ _id: customerId }, req.body, { new: true });
+        const customer = yield customer_1.Customer.findOneAndUpdate({ _id: customerId }, req.body, { new: true });
         res.json({ customer });
     }
     catch (e) {
@@ -117,7 +117,7 @@ app.patch('/api/orders/:id', (req, res) => __awaiter(void 0, void 0, void 0, fun
     // so updated order doesnt have new Id set by mongo
     req.body._id = orderId;
     try {
-        const result = yield Customer.findOneAndUpdate({ 'orders._id': orderId }, { $set: { 'orders.$': req.body } }, { new: true });
+        const result = yield customer_1.Customer.findOneAndUpdate({ 'orders._id': orderId }, { $set: { 'orders.$': req.body } }, { new: true });
         if (result) {
             res.json({ result });
         }
@@ -134,7 +134,7 @@ app.patch('/api/orders/:id', (req, res) => __awaiter(void 0, void 0, void 0, fun
 app.delete('/api/customers/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const customerId = req.params.id;
-        const result = yield Customer.deleteOne({ _id: customerId });
+        const result = yield customer_1.Customer.deleteOne({ _id: customerId });
         res.json({ deletedCount: result.deletedCount });
     }
     catch (e) {

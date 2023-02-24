@@ -1,8 +1,6 @@
-//@ts-nocheck
+import {Schema, model} from 'mongoose';
 
-const mongoose = require('mongoose');
-
-const customerSchema = new mongoose.Schema( {
+const customerSchema = new Schema( {
   name: {
     type: String,
     required: true
@@ -16,4 +14,4 @@ const customerSchema = new mongoose.Schema( {
   ]
 });
 
-module.exports = mongoose.model('Customer', customerSchema);
+export const Customer =  model('Customer', customerSchema);
