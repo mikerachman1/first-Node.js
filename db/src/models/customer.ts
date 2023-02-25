@@ -1,6 +1,17 @@
 import {Schema, model} from 'mongoose';
 
-const customerSchema = new Schema( {
+interface IOrder {
+  description: string,
+  amountInCents?: number
+};
+
+interface ICustomer {
+  name: string,
+  industry?: string,
+  orders?: IOrder[]
+};
+
+const customerSchema = new Schema<ICustomer>( {
   name: {
     type: String,
     required: true
